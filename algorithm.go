@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
-	"slices"
 )
 
 // AlgorithmReport Stores information of algorithm runs
@@ -259,7 +258,7 @@ func DijkstraGeometricPrune(graph Graph, s string, e string, aux map[AuxTuple][]
 		for _, edge := range graph.Edges[cv] {
 
 			container, ok := aux[AuxTuple{U: cv.Id, V: edge.ConnectedId}]
-			if !ok || !slices.Contains(container, ev.Id) {
+			if !ok || !ContainsVertex(container, ev.Id) {
 				continue
 			}
 
