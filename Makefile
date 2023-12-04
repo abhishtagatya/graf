@@ -23,7 +23,13 @@ clean:
 example_dijkstra:
 	$(GORUN) ./example/dijkstra.go
 
+example_degree:
+	$(GORUN) ./example/degree.go
+
 example_export:
 	$(GORUN) ./example/export.go
 
-.PHONY: all build clean run example_dijkstra example_export
+compute_container:
+	$(GORUN) ./example/container.go "$(GRAPH)"
+
+.PHONY: all build clean run example_dijkstra example_degree example_export compute_container

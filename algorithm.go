@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"slices"
 )
 
 // AlgorithmReport Stores information of algorithm runs
@@ -189,6 +190,79 @@ func Dijkstra(graph Graph, s string, e string) (*AlgorithmReport, error) {
 
 		report.VisitMap[cv.Id] = true
 		for _, edge := range graph.Edges[cv] {
+			newDist := cq.Priority + edge.Weight
+			if dist, ok := report.DistanceMap[edge.ConnectedId]; !ok || newDist < dist {
+				report.DistanceMap[edge.ConnectedId] = newDist
+				report.PredecessorMap[edge.ConnectedId] = &cv
+				heap.Push(&queue, &QueueItem{
+					Value:    *edge.ConnectedVertex,
+					Priority: newDist,
+				})
+			}
+		}
+	}
+
+	return &report, nil
+}
+
+// DijkstraGeometricPrune Traverses the graph using Dijkstra's Algorithm by restrictions of Geometric Containers
+// Full Source : Geometric containers for efficient shortest path computation. (Wagner et al., 2005)
+func DijkstraGeometricPrune(graph Graph, s string, e string, aux map[AuxTuple][]string) (*AlgorithmReport, error) {
+	var sv Vertex
+	var ev Vertex
+	var ok bool
+
+	if sv, ok = graph.Vertices[s]; !ok {
+		return nil, errors.New(fmt.Sprintf("Starting Vertex: %s is not in Graph.", s))
+	}
+	if ev, ok = graph.Vertices[e]; !ok {
+		return nil, errors.New(fmt.Sprintf("Ending Vertex: %s is not in Graph.", e))
+	}
+
+	report := AlgorithmReport{
+		StartVertex:    &sv,
+		EndVertex:      &ev,
+		Distance:       math.Inf(1),
+		DistanceMap:    map[string]float64{s: 0},
+		PredecessorMap: map[string]*Vertex{s: nil},
+		VisitMap:       map[string]bool{s: false},
+	}
+
+	queue := BlankQueue()
+	heap.Push(&queue, &QueueItem{
+		Value:    sv,
+		Priority: 0,
+	})
+
+	for !queue.IsEmpty() {
+		cq := heap.Pop(&queue).(*QueueItem)
+		cv := cq.Value.(Vertex)
+
+		if cv == ev {
+			report.Distance = report.DistanceMap[ev.Id]
+
+			pv := &ev
+			for pv != nil {
+				report.PredecessorChain = append(report.PredecessorChain, *pv)
+				tv := report.PredecessorMap[pv.Id]
+				pv = tv
+			}
+
+			return &report, nil
+		}
+
+		if report.VisitMap[cv.Id] {
+			continue
+		}
+
+		report.VisitMap[cv.Id] = true
+		for _, edge := range graph.Edges[cv] {
+
+			container, ok := aux[AuxTuple{U: cv.Id, V: edge.ConnectedId}]
+			if !ok || !slices.Contains(container, ev.Id) {
+				continue
+			}
+
 			newDist := cq.Priority + edge.Weight
 			if dist, ok := report.DistanceMap[edge.ConnectedId]; !ok || newDist < dist {
 				report.DistanceMap[edge.ConnectedId] = newDist

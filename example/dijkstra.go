@@ -13,8 +13,8 @@ func main() {
 		return
 	}
 
-	s := strconv.FormatInt(int64(42), 10)
-	e := strconv.FormatInt(int64(69), 10)
+	s := strconv.FormatInt(int64(6), 10)
+	e := strconv.FormatInt(int64(1), 10)
 
 	if s == e {
 		return
@@ -26,6 +26,5 @@ func main() {
 		return
 	}
 
-	fmt.Println(result.Distance, len(result.VisitMap), len(graph.Vertices))
-
+	fmt.Println(result.Distance, len(result.PredecessorChain), len(graph.Vertices))
 }
