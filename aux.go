@@ -3,6 +3,7 @@ package graf
 import (
 	"container/heap"
 	"fmt"
+	"slices"
 )
 
 /* Fully Auxiliary Examples to Specific Problem Implementations. */
@@ -13,20 +14,25 @@ type AuxTuple struct {
 }
 
 func ContainsVertex(list []string, v string) bool {
-	for _, i := range list {
-		if v == i {
-			return true
-		}
-	}
+	//for _, i := range list {
+	//	if v == i {
+	//		return true
+	//	}
+	//}
+	//
+	//return false
 
-	return false
+	return slices.Contains(list, v)
 }
 
 func ComputeContainers(graph *Graph) map[AuxTuple][]string {
 	aMap := make(map[string]AuxTuple)
 	auxContainer := make(map[AuxTuple][]string)
 
+	count := 0
+
 	for sid := range graph.Vertices {
+		fmt.Println(fmt.Sprintf("Starting %s %d/%d", sid, count, len(graph.Vertices)))
 		sv := graph.Vertices[sid]
 
 		distanceMap := map[string]float64{sid: 0}
@@ -65,7 +71,8 @@ func ComputeContainers(graph *Graph) map[AuxTuple][]string {
 			}
 		}
 
-		fmt.Println(fmt.Sprintf("Computed %s", sid))
+		count += 1
+		fmt.Println(fmt.Sprintf("Computed %s %d/%d", sid, count, len(graph.Vertices)))
 	}
 
 	return auxContainer
