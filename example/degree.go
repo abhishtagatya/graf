@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"graf"
-	"sort"
 )
 
 func main() {
@@ -37,16 +36,5 @@ func main() {
 	for v := range inDegree {
 		fmt.Println(v, inDegree[v], outDegree[v])
 	}
-
-	// Extract keys into a slice
-	values := make([]int, 0, len(outDegree))
-	for _, v := range outDegree {
-		values = append(values, v)
-	}
-
-	// Sort the values
-	sort.Ints(values)
-
-	fmt.Println(values)
 
 }
