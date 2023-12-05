@@ -10,16 +10,8 @@ import (
 
 var XFSpace = "c \n"
 var XFContent = "a %s %s %f\n"
-var XCContentHead = "x %s %s"
-var XCContentTail = " %s"
 
 var XFBoilerplate = []string{
-	"c Made with Graf (Graph Algorithms Library in Go)\n",
-	"c https://github.com/abhishtagatya/graf\n",
-}
-
-var XCBoilerplate = []string{
-	"c Geometric Container (Aux Graph)\n",
 	"c Made with Graf (Graph Algorithms Library in Go)\n",
 	"c https://github.com/abhishtagatya/graf\n",
 }
@@ -110,70 +102,6 @@ func ExportFile(graph *Graph, fileName string) error {
 				return err
 			}
 		}
-	}
-
-	return nil
-}
-
-func LoadAuxContainer(fileName string, prefix string) (map[AuxTuple][]string, error) {
-	aux := make(map[AuxTuple][]string)
-
-	readFile, err := os.Open(fileName)
-	if err != nil {
-		return nil, err
-	}
-
-	fileScanner := bufio.NewScanner(readFile)
-	fileScanner.Split(bufio.ScanLines)
-
-	for fileScanner.Scan() {
-		lineScan := fileScanner.Text()
-		if strings.HasPrefix(lineScan, prefix) {
-			lineVertex := strings.Split(lineScan, " ")
-
-			vTup := AuxTuple{U: lineVertex[1], V: lineVertex[2]}
-
-			for _, lv := range lineVertex[3:] {
-				aux[vTup] = append(aux[vTup], lv)
-			}
-		}
-	}
-
-	err = readFile.Close()
-	if err != nil {
-		return nil, err
-	}
-
-	return aux, nil
-}
-
-func ExportAuxContainer(aux map[AuxTuple][]string, fileName string) error {
-
-	f, err := os.Create(fileName)
-	if err != nil {
-		return err
-	}
-
-	defer f.Close()
-
-	// Write Boilerplate
-	for _, sb := range XCBoilerplate {
-		if _, err = f.WriteString(sb); err != nil {
-			return err
-		}
-	}
-
-	if _, err = f.WriteString(XFSpace); err != nil {
-		return err
-	}
-
-	// Write Content
-	for k, v := range aux {
-		_, err = f.WriteString(fmt.Sprintf(XCContentHead, k.U, k.V))
-		for _, vx := range v {
-			_, err = f.WriteString(fmt.Sprintf(XCContentTail, vx))
-		}
-		_, err = f.WriteString("\n")
 	}
 
 	return nil
