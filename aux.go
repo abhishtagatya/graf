@@ -3,7 +3,6 @@ package graf
 import (
 	"container/heap"
 	"fmt"
-	"slices"
 )
 
 /* Fully Auxiliary Examples to Specific Problem Implementations. */
@@ -14,15 +13,13 @@ type AuxTuple struct {
 }
 
 func ContainsVertex(list []string, v string) bool {
-	//for _, i := range list {
-	//	if v == i {
-	//		return true
-	//	}
-	//}
-	//
-	//return false
+	for _, i := range list {
+		if v == i {
+			return true
+		}
+	}
 
-	return slices.Contains(list, v)
+	return false
 }
 
 func ComputeContainers(graph *Graph) map[AuxTuple][]string {
