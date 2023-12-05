@@ -2,6 +2,7 @@ package graf
 
 import (
 	"container/heap"
+	"fmt"
 )
 
 /* Fully Auxiliary Examples to Specific Problem Implementations. */
@@ -62,8 +63,9 @@ func ComputeContainers(graph *Graph) map[AuxTuple][]string {
 					}
 				}
 			}
-
 		}
+
+		fmt.Println(fmt.Sprintf("Computed %s", sid))
 	}
 
 	return auxContainer

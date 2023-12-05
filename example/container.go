@@ -25,6 +25,7 @@ func main() {
 
 	auxContainer := graf.ComputeContainers(graph)
 
+	fmt.Println("Saving auxContainer...")
 	err = graf.ExportAuxContainer(auxContainer, fmt.Sprintf("%s.aux", arg))
 	if err != nil {
 		fmt.Println(err.Error())
