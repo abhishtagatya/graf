@@ -1,4 +1,4 @@
-package auxiliary
+package imp
 
 import (
 	"bytes"
@@ -16,11 +16,8 @@ import (
  * Geometric containers for efficient shortest path computation. (Wagner et al., 2005)
  */
 
-var XCContentHead = "x %s %s"
-var XCContentTail = " %s"
-
-var XCBoilerplate = []string{
-	"c Geometric Container (Aux Graph)\n",
+var XGCBoilerplate = []string{
+	"c Geometric Container (Graph Annotation)\n",
 	"c Made with Graf (Graph Algorithms Library in Go)\n",
 	"c https://github.com/abhishtagatya/graf\n",
 }
@@ -69,7 +66,7 @@ func ExportContainer(aux map[ContainerTuple][]string, fileName string) error {
 	defer f.Close()
 
 	// Write Boilerplate
-	for _, sb := range XCBoilerplate {
+	for _, sb := range XGCBoilerplate {
 		if _, err = f.WriteString(sb); err != nil {
 			return err
 		}
@@ -91,21 +88,12 @@ func ExportContainer(aux map[ContainerTuple][]string, fileName string) error {
 	return nil
 }
 
-func ContainsVertex(list []string, v string) bool {
-	for _, i := range list {
-		if v == i {
-			return true
-		}
-	}
-
-	return false
-}
-
 func ComputeContainers(graph *graf.Graph) map[ContainerTuple][]string {
 	aMap := make(map[string]ContainerTuple)
 	auxContainer := make(map[ContainerTuple][]string)
 
 	for sid := range graph.Vertices {
+		fmt.Println(sid, len(graph.Vertices))
 		sv := graph.Vertices[sid]
 
 		distanceMap := map[string]float64{sid: 0}
@@ -121,7 +109,7 @@ func ComputeContainers(graph *graf.Graph) map[ContainerTuple][]string {
 			cv := cq.Value.(graf.Vertex)
 
 			if cv != sv {
-				if !ContainsVertex(auxContainer[aMap[cv.Id]], cv.Id) {
+				if !graf.ContainsVertex(auxContainer[aMap[cv.Id]], cv.Id) {
 					auxContainer[aMap[cv.Id]] = append(auxContainer[aMap[cv.Id]], cv.Id)
 				}
 			}
@@ -201,7 +189,7 @@ func DijkstraGeometricPrune(graph graf.Graph, s string, e string, aux map[Contai
 		for _, edge := range graph.Edges[cv] {
 
 			container, ok := aux[ContainerTuple{U: cv.Id, V: edge.ConnectedId}]
-			if !ok || !ContainsVertex(container, ev.Id) {
+			if !ok || !graf.ContainsVertex(container, ev.Id) {
 				continue
 			}
 

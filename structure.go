@@ -53,6 +53,16 @@ func CountEdge(graph *Graph) int {
 	return ec
 }
 
+func ContainsVertex(list []string, v string) bool {
+	for _, i := range list {
+		if v == i {
+			return true
+		}
+	}
+
+	return false
+}
+
 func BlankGraph() Graph {
 	graph := Graph{
 		Vertices: map[string]Vertex{},
