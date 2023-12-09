@@ -1,12 +1,9 @@
-package imp
+package astarh
 
 import (
 	"container/heap"
 	"graf"
 )
-
-var XCContentHead = "x %s %s"
-var XCContentTail = " %s"
 
 // HeuristicAlgorithmReport Stores information of algorithm runs
 type HeuristicAlgorithmReport struct {

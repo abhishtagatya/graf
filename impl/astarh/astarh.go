@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"graf"
-	"graf/impl"
 	"math"
 	"os"
 	"strconv"
@@ -102,7 +101,7 @@ func HaversineDistance(s, v VertexCoordinate) float64 {
 }
 
 // AStarHaversine A* Algorithm with Haversine Distance Heuristic
-func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]VertexCoordinate) (*impl.HeuristicAlgorithmReport, error) {
+func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]VertexCoordinate) (*HeuristicAlgorithmReport, error) {
 	var sv graf.Vertex
 	var ev graf.Vertex
 	var ok bool
@@ -116,7 +115,7 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 
 	maxTrueDistance := HaversineDistance(heuristic[sv.Id], heuristic[ev.Id])
 
-	report := impl.HeuristicAlgorithmReport{
+	report := HeuristicAlgorithmReport{
 		StartVertex:    &sv,
 		EndVertex:      &ev,
 		Distance:       math.Inf(1),
@@ -126,15 +125,15 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 		VisitMap:       map[string]bool{s: false},
 	}
 
-	queue := impl.BlankHeuristicQueue()
-	heap.Push(&queue, &impl.HeuristicQueueItem{
+	queue := BlankHeuristicQueue()
+	heap.Push(&queue, &HeuristicQueueItem{
 		Value:    sv,
 		Weight:   0,
 		Priority: 0,
 	})
 
 	for !queue.IsEmpty() {
-		cq := heap.Pop(&queue).(*impl.HeuristicQueueItem)
+		cq := heap.Pop(&queue).(*HeuristicQueueItem)
 		cv := cq.Value.(graf.Vertex)
 
 		if cv == ev {
@@ -163,7 +162,7 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 				report.DistanceMap[edge.ConnectedId] = newDist
 				report.HeuristicMap[edge.ConnectedId] = newHeur
 				report.PredecessorMap[edge.ConnectedId] = &cv
-				heap.Push(&queue, &impl.HeuristicQueueItem{
+				heap.Push(&queue, &HeuristicQueueItem{
 					Value:    *edge.ConnectedVertex,
 					Weight:   newDist,
 					Priority: newHeur,
