@@ -21,8 +21,8 @@ var XFMeta = []string{
 	"c graph contains %d nodes and %d edges\n",
 }
 
-// FromFile Read Graph from (.gr) File
-func FromFile(fileName string, prefix string) (*Graph, error) {
+// LoadFile Read Graph from (.gr) File
+func LoadFile(fileName string, prefix string) (*Graph, error) {
 
 	graph := BlankGraph()
 

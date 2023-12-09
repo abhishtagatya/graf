@@ -21,7 +21,7 @@ func MaxWalk(graph graf.Graph, s string, step int) (*graf.AlgorithmReport, error
 		EndVertex:      nil,
 		Distance:       0,
 		DistanceMap:    map[string]float64{s: 0},
-		PredecessorMap: map[string]*Vertex{s: nil},
+		PredecessorMap: map[string]*graf.Vertex{s: nil},
 		VisitMap:       map[string]bool{s: true},
 	}
 
@@ -41,6 +41,7 @@ func MaxWalk(graph graf.Graph, s string, step int) (*graf.AlgorithmReport, error
 		report.Distance = report.Distance + maxWeight
 		report.DistanceMap[mv.Id] = report.Distance
 		report.PredecessorMap[mv.Id] = &sv
+		report.PredecessorChain = append(report.PredecessorChain, sv)
 
 		sv = mv
 	}

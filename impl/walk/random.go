@@ -21,7 +21,7 @@ func RandomWalk(graph graf.Graph, s string, step int) (*graf.AlgorithmReport, er
 		EndVertex:      nil,
 		Distance:       0,
 		DistanceMap:    map[string]float64{s: 0},
-		PredecessorMap: map[string]*Vertex{s: nil},
+		PredecessorMap: map[string]*graf.Vertex{s: nil},
 		VisitMap:       map[string]bool{s: true},
 	}
 
@@ -34,6 +34,7 @@ func RandomWalk(graph graf.Graph, s string, step int) (*graf.AlgorithmReport, er
 		report.Distance = report.Distance + ev.Weight
 		report.DistanceMap[ev.ConnectedId] = report.Distance
 		report.PredecessorMap[ev.ConnectedId] = &sv
+		report.PredecessorChain = append(report.PredecessorChain, sv)
 
 		sv = *ev.ConnectedVertex
 	}
