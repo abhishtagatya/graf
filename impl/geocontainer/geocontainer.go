@@ -1,4 +1,4 @@
-package imp
+package geocontainer
 
 import (
 	"bytes"
@@ -12,8 +12,10 @@ import (
 	"strings"
 )
 
-/* Auxiliary Graph for Engineering Large Networks
- * Geometric containers for efficient shortest path computation. (Wagner et al., 2005)
+/* Geometric Containers Annotation
+ *
+ * Precomputing containers for efficient shortest path computation. Unofficial implementation
+ * of `Geometric containers for efficient shortest path computation. (Wagner et al., 2005)`
  */
 
 var XGCBoilerplate = []string{
@@ -22,12 +24,14 @@ var XGCBoilerplate = []string{
 	"c https://github.com/abhishtagatya/graf\n",
 }
 
+// ContainerTuple Tuple Type for Container Vertices
 type ContainerTuple struct {
 	U string
 	V string
 }
 
-func LoadContainer(fileName string, prefix string) (map[ContainerTuple][]string, error) {
+// LoadGeoContainer Loads a file containing Container Pre-computations
+func LoadGeoContainer(fileName string, prefix string) (map[ContainerTuple][]string, error) {
 	aux := make(map[ContainerTuple][]string)
 
 	file, err := os.ReadFile(fileName)
@@ -56,7 +60,8 @@ func LoadContainer(fileName string, prefix string) (map[ContainerTuple][]string,
 	return aux, nil
 }
 
-func ExportContainer(aux map[ContainerTuple][]string, fileName string) error {
+// ExportGeoContainer Exports the Computed Container to a File
+func ExportGeoContainer(aux map[ContainerTuple][]string, fileName string) error {
 
 	f, err := os.Create(fileName)
 	if err != nil {
@@ -88,12 +93,12 @@ func ExportContainer(aux map[ContainerTuple][]string, fileName string) error {
 	return nil
 }
 
-func ComputeContainers(graph *graf.Graph) map[ContainerTuple][]string {
+// ComputeGeoContainer Computing Geometric Container (Wagner et al., 2005)
+func ComputeGeoContainer(graph *graf.Graph) map[ContainerTuple][]string {
 	aMap := make(map[string]ContainerTuple)
 	auxContainer := make(map[ContainerTuple][]string)
 
 	for sid := range graph.Vertices {
-		fmt.Println(sid, len(graph.Vertices))
 		sv := graph.Vertices[sid]
 
 		distanceMap := map[string]float64{sid: 0}
@@ -136,7 +141,7 @@ func ComputeContainers(graph *graf.Graph) map[ContainerTuple][]string {
 	return auxContainer
 }
 
-// DijkstraGeometricPrune Traverses the graph using Dijkstra's Algorithm by restrictions of Geometric Containers
+// DijkstraGeometricPrune Dijkstra's Algorithm by restrictions of Geometric Containers
 func DijkstraGeometricPrune(graph graf.Graph, s string, e string, aux map[ContainerTuple][]string) (*graf.AlgorithmReport, error) {
 	var sv graf.Vertex
 	var ev graf.Vertex
