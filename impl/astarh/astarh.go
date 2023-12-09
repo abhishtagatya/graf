@@ -1,4 +1,4 @@
-package imp
+package astarh
 
 import (
 	"bufio"
@@ -6,17 +6,26 @@ import (
 	"errors"
 	"fmt"
 	"graf"
+	"graf/impl"
 	"math"
 	"os"
 	"strconv"
 	"strings"
 )
 
+/* Haversine Distance Heuristic
+ *
+ * Calculating Haversine Distance between Edge Vertices Coordinates
+ * as a Heuristic that pairs with the Actual Cost.
+ */
+
+// VertexCoordinate Annotates the Coordinates of Vertices
 type VertexCoordinate struct {
 	Latitude  float64
 	Longitude float64
 }
 
+// LoadCoordinate Loads a file containing Coordinates of Vertices
 func LoadCoordinate(fileName string, prefix string) (map[string]VertexCoordinate, error) {
 	coordMap := make(map[string]VertexCoordinate)
 
@@ -92,7 +101,8 @@ func HaversineDistance(s, v VertexCoordinate) float64 {
 	return distance * 10000
 }
 
-func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]VertexCoordinate) (*HeuristicAlgorithmReport, error) {
+// AStarHaversine A* Algorithm with Haversine Distance Heuristic
+func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]VertexCoordinate) (*impl.HeuristicAlgorithmReport, error) {
 	var sv graf.Vertex
 	var ev graf.Vertex
 	var ok bool
@@ -105,9 +115,8 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 	}
 
 	maxTrueDistance := HaversineDistance(heuristic[sv.Id], heuristic[ev.Id])
-	fmt.Println(maxTrueDistance)
 
-	report := HeuristicAlgorithmReport{
+	report := impl.HeuristicAlgorithmReport{
 		StartVertex:    &sv,
 		EndVertex:      &ev,
 		Distance:       math.Inf(1),
@@ -117,15 +126,15 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 		VisitMap:       map[string]bool{s: false},
 	}
 
-	queue := BlankHeuristicQueue()
-	heap.Push(&queue, &HeuristicQueueItem{
+	queue := impl.BlankHeuristicQueue()
+	heap.Push(&queue, &impl.HeuristicQueueItem{
 		Value:    sv,
 		Weight:   0,
 		Priority: 0,
 	})
 
 	for !queue.IsEmpty() {
-		cq := heap.Pop(&queue).(*HeuristicQueueItem)
+		cq := heap.Pop(&queue).(*impl.HeuristicQueueItem)
 		cv := cq.Value.(graf.Vertex)
 
 		if cv == ev {
@@ -137,8 +146,6 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 				tv := report.PredecessorMap[pv.Id]
 				pv = tv
 			}
-
-			fmt.Println(report.DistanceMap[ev.Id], report.HeuristicMap[ev.Id])
 
 			return &report, nil
 		}
@@ -156,7 +163,7 @@ func AStarHaversine(graph graf.Graph, s string, e string, heuristic map[string]V
 				report.DistanceMap[edge.ConnectedId] = newDist
 				report.HeuristicMap[edge.ConnectedId] = newHeur
 				report.PredecessorMap[edge.ConnectedId] = &cv
-				heap.Push(&queue, &HeuristicQueueItem{
+				heap.Push(&queue, &impl.HeuristicQueueItem{
 					Value:    *edge.ConnectedVertex,
 					Weight:   newDist,
 					Priority: newHeur,
