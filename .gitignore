@@ -1,3 +1,5 @@
 .idea/
 bin/*
 *.aux
+*.ano
+*.red
