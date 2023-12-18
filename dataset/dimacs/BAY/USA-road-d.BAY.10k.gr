@@ -2,8 +2,8 @@ c 9th DIMACS Implementation Challenge: Shortest Paths
 c http://www.dis.uniroma1.it/~challenge9
 c TIGER/Line graph USA-road-d.BAY
 c
-p sp 321270 800172
-c graph contains 321270 nodes and 800172 arcs
+p sp 4164 10000
+c graph contains 4164 nodes and 10000 arcs
 c
 a 1 2 1988
 a 2 1 1988
