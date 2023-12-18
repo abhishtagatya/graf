@@ -9,7 +9,6 @@ import (
 // FloydWarshall Implementation of the Floyd-Warshall Algorithm for the All-Pairs Problem
 func FloydWarshall(graph graf.Graph) (graf.GraphMatrix, error) {
 	dMat := graf.ToAdjMatrix(&graph)
-	fmt.Println(dMat)
 
 	count := 0
 	for k, _ := range graph.Vertices {
