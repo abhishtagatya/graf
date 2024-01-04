@@ -1,5 +1,7 @@
 package graf
 
+import "math"
+
 /* Graph Structure */
 
 type Edge struct {
@@ -18,6 +20,9 @@ type Graph struct {
 	Edges    map[Vertex][]Edge `json:"edges"`
 }
 
+type GraphMatrix map[string]map[string]float64
+
+// AddVertex Adding a Vertex to the Graph
 func (gr *Graph) AddVertex(v string) Vertex {
 	var vf Vertex
 	var ok bool
@@ -30,6 +35,7 @@ func (gr *Graph) AddVertex(v string) Vertex {
 	return vf
 }
 
+// AddEdge Adding an Edge to the Graph
 func (gr *Graph) AddEdge(u, v Vertex, weight float64) Edge {
 	uvEdge := Edge{
 		Weight:          weight,
@@ -40,6 +46,31 @@ func (gr *Graph) AddEdge(u, v Vertex, weight float64) Edge {
 	return uvEdge
 }
 
+// ToAdjMatrix Transform Adjacency-List Representation (Default) to an Adjacency-Matrix Representation
+func ToAdjMatrix(graph *Graph) GraphMatrix {
+	matrix := make(GraphMatrix)
+
+	for vi, _ := range graph.Vertices {
+		innerMap := make(map[string]float64)
+		for vk, _ := range graph.Vertices {
+			innerMap[vk] = math.Inf(1)
+			if vi == vk {
+				innerMap[vk] = 0
+			}
+		}
+		matrix[vi] = innerMap
+	}
+
+	for vi, vObj := range graph.Vertices {
+		for _, edge := range graph.Edges[vObj] {
+			matrix[vi][edge.ConnectedId] = edge.Weight
+		}
+	}
+
+	return matrix
+}
+
+// CountEdge Count the Edge of a Graph
 func CountEdge(graph *Graph) int {
 	ec := 0
 	for _, edge := range graph.Edges {
@@ -49,6 +80,7 @@ func CountEdge(graph *Graph) int {
 	return ec
 }
 
+// ContainsVertex Checks if a Graph contains a searched Vertex
 func ContainsVertex(list []string, v string) bool {
 	for _, i := range list {
 		if v == i {
@@ -59,6 +91,7 @@ func ContainsVertex(list []string, v string) bool {
 	return false
 }
 
+// ContainsEdge Checks if a Graph contains a searched Edge
 func ContainsEdge(edges []Edge, edge Edge) bool {
 	for _, e := range edges {
 		if e.ConnectedId == edge.ConnectedId && e.ConnectedVertex.Id == edge.ConnectedVertex.Id && e.Weight == edge.Weight {
@@ -69,6 +102,7 @@ func ContainsEdge(edges []Edge, edge Edge) bool {
 	return false
 }
 
+// BlankGraph Create a Blank Graph
 func BlankGraph() Graph {
 	graph := Graph{
 		Vertices: map[string]Vertex{},
