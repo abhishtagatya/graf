@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"graf"
-	"graf/impl/dijkstra"
+	"github.com/abhishtagatya/graf"
+	"github.com/abhishtagatya/graf/impl/dijkstra"
 	"os"
 	"time"
 )

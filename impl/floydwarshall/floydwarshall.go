@@ -2,7 +2,7 @@ package floydwarshall
 
 import (
 	"fmt"
-	"graf"
+	"github.com/abhishtagatya/graf"
 	"math"
 )
 

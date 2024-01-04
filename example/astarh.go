@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"graf"
-	"graf/impl/astarh"
+	"github.com/abhishtagatya/graf"
+	"github.com/abhishtagatya/graf/impl/astarh"
 	"os"
 	"time"
 )

@@ -3,7 +3,7 @@ package walk
 import (
 	"errors"
 	"fmt"
-	"graf"
+	"github.com/abhishtagatya/graf"
 	"math/rand"
 )
 

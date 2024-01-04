@@ -1,5 +1,4 @@
-.idea/
-bin/*
-*.aux
+.idea
 *.ano
+*.aux
 *.red

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"graf"
-	"graf/impl/floydwarshall"
+	"github.com/abhishtagatya/graf"
+	"github.com/abhishtagatya/graf/impl/floydwarshall"
 	"os"
 )
 

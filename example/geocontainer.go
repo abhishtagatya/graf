@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"graf"
-	"graf/impl/geocontainer"
+	"github.com/abhishtagatya/graf"
+	"github.com/abhishtagatya/graf/impl/geocontainer"
 	"os"
 	"time"
 )

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"graf"
-	"graf/impl/walk"
+	"github.com/abhishtagatya/graf"
+	"github.com/abhishtagatya/graf/impl/walk"
 	"os"
 	"strconv"
 )

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"graf"
-	"graf/impl/minoverlay"
+	"github.com/abhishtagatya/graf"
+	"github.com/abhishtagatya/graf/impl/minoverlay"
 	"os"
 	"strings"
 	"time"

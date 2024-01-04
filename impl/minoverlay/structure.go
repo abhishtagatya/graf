@@ -1,6 +1,6 @@
 package minoverlay
 
-import "graf"
+import "github.com/abhishtagatya/graf"
 
 type OverlayGraph struct {
 	Vertices map[string]graf.Vertex

@@ -4,7 +4,7 @@ import (
 	"container/heap"
 	"errors"
 	"fmt"
-	"graf"
+	"github.com/abhishtagatya/graf"
 	"math"
 )
 

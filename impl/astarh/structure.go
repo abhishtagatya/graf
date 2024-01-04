@@ -2,7 +2,7 @@ package astarh
 
 import (
 	"container/heap"
-	"graf"
+	"github.com/abhishtagatya/graf"
 )
 
 // HeuristicAlgorithmReport Stores information of algorithm runs

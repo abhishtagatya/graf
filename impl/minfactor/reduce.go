@@ -2,7 +2,7 @@ package minfactor
 
 import (
 	"container/heap"
-	"graf"
+	"github.com/abhishtagatya/graf"
 )
 
 // ReduceGraphEdge Reduces the Graph Edge to Minimal Amount of Edges Required

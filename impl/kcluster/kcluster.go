@@ -1,7 +1,7 @@
 package kcluster
 
 import (
-	"graf"
+	"github.com/abhishtagatya/graf"
 	"math"
 )
 
