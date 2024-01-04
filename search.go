@@ -6,7 +6,7 @@ import (
 	"math"
 )
 
-func BreadthSearch(graph Graph, s string) (*AlgorithmReport, error) {
+func Breadth(graph Graph, s string) (*AlgorithmReport, error) {
 	var sv Vertex
 	var ok bool
 
@@ -45,4 +45,45 @@ func BreadthSearch(graph Graph, s string) (*AlgorithmReport, error) {
 	}
 
 	return &report, nil
+}
+
+func Depth(graph Graph) (*AlgorithmReport, error) {
+	var ok bool
+
+	report := AlgorithmReport{
+		Distance:       0,
+		DistanceMap:    map[string]float64{},
+		PredecessorMap: map[string]*Vertex{},
+		VisitMap:       map[string]bool{},
+	}
+
+	for _, v := range graph.Vertices {
+		if ok = report.VisitMap[v.Id]; !ok {
+			depthVisit(graph, v, &report)
+		}
+	}
+
+	return &report, nil
+}
+
+func depthVisit(graph Graph, u Vertex, report *AlgorithmReport) {
+	var ok bool
+
+	// Distance as Discovery
+	report.VisitMap[u.Id] = true
+	report.Distance += 1
+	report.DistanceMap[u.Id] = report.Distance
+	report.PredecessorChain = append(report.PredecessorChain, u)
+
+	for _, edge := range graph.Edges[u] {
+		if report.StartVertex == nil {
+			report.StartVertex = &u
+		}
+
+		if ok = report.VisitMap[edge.ConnectedId]; !ok {
+			depthVisit(graph, *edge.ConnectedVertex, report)
+		}
+	}
+
+	report.EndVertex = &u
 }

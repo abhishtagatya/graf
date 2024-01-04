@@ -22,7 +22,7 @@ func main() {
 	}
 
 	startTime := time.Now()
-	report, err := graf.BreadthSearch(*graph, source)
+	report, err := graf.Breadth(*graph, source)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -33,6 +33,28 @@ func main() {
 	result := fmt.Sprintf("Distance\t: %f\nVisits\t: %d\nElapsed Timet\t: %s", report.Distance, len(report.VisitMap), elapsedTime)
 
 	fmt.Println("BFS : ")
+	fmt.Println(result)
+
+	for _, v := range report.PredecessorChain {
+		fmt.Printf("%s ", v.Id)
+	}
+	fmt.Println()
+	fmt.Println(report.StartVertex.Id, report.EndVertex.Id)
+
+	fmt.Println("----")
+
+	startTime = time.Now()
+	report, err = graf.Depth(*graph)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	endTime = time.Now()
+	elapsedTime = endTime.Sub(startTime)
+
+	result = fmt.Sprintf("Distance\t: %f\nVisits\t: %d\nElapsed Timet\t: %s", report.Distance, len(report.VisitMap), elapsedTime)
+
+	fmt.Println("DFS : ")
 	fmt.Println(result)
 
 	for _, v := range report.PredecessorChain {
