@@ -103,7 +103,7 @@ func ComputeGeoContainer(graph *graf.Graph) map[ContainerTuple][]string {
 
 		distanceMap := map[string]float64{sid: 0}
 
-		queue := graf.BlankQueue()
+		queue := graf.BlankMinPriorityQueue()
 		heap.Push(&queue, &graf.QueueItem{
 			Value:    sv,
 			Priority: 0,
@@ -163,7 +163,7 @@ func DijkstraGeometricPrune(graph graf.Graph, s string, e string, annotation map
 		VisitMap:       map[string]bool{s: false},
 	}
 
-	queue := graf.BlankQueue()
+	queue := graf.BlankMinPriorityQueue()
 	heap.Push(&queue, &graf.QueueItem{
 		Value:    sv,
 		Priority: 0,

@@ -30,7 +30,7 @@ func SingleDijkstra(graph graf.Graph, s string, e string) (*graf.AlgorithmReport
 		VisitMap:       map[string]bool{s: false},
 	}
 
-	queue := graf.BlankQueue()
+	queue := graf.BlankMinPriorityQueue()
 	heap.Push(&queue, &graf.QueueItem{
 		Value:    sv,
 		Priority: 0,

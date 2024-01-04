@@ -12,7 +12,7 @@ func ReduceGraphEdge(graph graf.Graph) (*graf.Graph, error) {
 	for sid := range graph.Vertices {
 		sv := graph.Vertices[sid]
 
-		queue := graf.BlankQueue()
+		queue := graf.BlankMinPriorityQueue()
 		heap.Push(&queue, &graf.QueueItem{
 			Value:    sv,
 			Priority: 0,

@@ -8,6 +8,46 @@ type QueueItem struct {
 	Index    int
 }
 
+type Queue []*QueueItem
+
+func (q *Queue) Push(x interface{}) {
+	item := x.(*QueueItem)
+	*q = append(*q, item)
+}
+
+func (q *Queue) Pop() interface{} {
+	if len(*q) == 0 {
+		return nil
+	}
+
+	old := *q
+	item := old[0]
+	*q = old[1:]
+	return item
+}
+
+func (q *Queue) Peek() interface{} {
+	if len(*q) == 0 {
+		return nil
+	}
+
+	item := *q
+	return item[0]
+}
+
+func (q Queue) IsEmpty() bool {
+	return len(q) == 0
+}
+
+func (q Queue) Len() int {
+	return len(q)
+}
+
+func BlankQueue() Queue {
+	q := make(Queue, 0)
+	return q
+}
+
 type MinPriorityQueue []*QueueItem
 
 func (mpq MinPriorityQueue) Len() int {
@@ -43,7 +83,7 @@ func (mpq *MinPriorityQueue) Pop() interface{} {
 	return item
 }
 
-func BlankQueue() MinPriorityQueue {
+func BlankMinPriorityQueue() MinPriorityQueue {
 	mpq := make(MinPriorityQueue, 0)
 	heap.Init(&mpq)
 	return mpq

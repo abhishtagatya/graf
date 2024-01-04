@@ -19,7 +19,7 @@ func DijkstraOverlay(graph graf.Graph, sv graf.Vertex, sub []string) map[string]
 	distances[sv.Id] = OverlayPair{Weight: 0, Sigma: 0}
 	visits[sv.Id] = false
 
-	queue := graf.BlankQueue()
+	queue := graf.BlankMinPriorityQueue()
 	heap.Push(&queue, &graf.QueueItem{
 		Value:    sv,
 		Priority: 0,
